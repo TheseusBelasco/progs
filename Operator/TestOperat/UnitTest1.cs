@@ -1,15 +1,16 @@
 using NUnit.Framework;
 using Operator;
+using System.Xml.Linq;
 
 namespace TestOperat
 {
     [TestFixture]
-    public class ServiceTests
+    public class Tests
     {
         [Test]
-        public void Calls_Payment_CalculatesCorrectly()
+        public void ConstructorTest()
         {
-            var subscriber = new Subscriber("Том", "Маршалл", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
+            var subscriber = new Subscriber("Г’Г®Г¬", "ГЊГ Г°ГёГ Г«Г«", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
             var calls = new Calls
             {
                 Abonent = subscriber,
@@ -24,7 +25,7 @@ namespace TestOperat
         [Test]
         public void TextMessage_Payment_CalculatesCorrectly()
         {
-            var subscriber = new Subscriber("Том", "Маршалл", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
+            var subscriber = new Subscriber("Г’Г®Г¬", "ГЊГ Г°ГёГ Г«Г«", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
             var textMessage = new TextMessage
             {
                 Abonent = subscriber,
@@ -39,7 +40,7 @@ namespace TestOperat
         [Test]
         public void Internet_Payment_CalculatesCorrectly()
         {
-            var subscriber = new Subscriber("Том", "Маршалл", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
+            var subscriber = new Subscriber("Г’Г®Г¬", "ГЊГ Г°ГёГ Г«Г«", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
             var internet = new Internet
             {
                 Abonent = subscriber,
@@ -54,7 +55,7 @@ namespace TestOperat
         [Test]
         public void Calls_Payment_FreeMinutes_NoCharge()
         {
-            var subscriber = new Subscriber("Том", "Маршалл", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
+            var subscriber = new Subscriber("Г’Г®Г¬", "ГЊГ Г°ГёГ Г«Г«", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
             var calls = new Calls
             {
                 Abonent = subscriber,
@@ -69,7 +70,7 @@ namespace TestOperat
         [Test]
         public void TextMessage_Payment_FreeMessages_NoCharge()
         {
-            var subscriber = new Subscriber("Том", "Маршалл", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
+            var subscriber = new Subscriber("Г’Г®Г¬", "ГЊГ Г°ГёГ Г«Г«", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
             var textMessage = new TextMessage
             {
                 Abonent = subscriber,
@@ -84,7 +85,7 @@ namespace TestOperat
         [Test]
         public void Internet_Payment_FreeTraffic_NoCharge()
         {
-            var subscriber = new Subscriber("Том", "Маршалл", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
+            var subscriber = new Subscriber("Г’Г®Г¬", "ГЊГ Г°ГёГ Г«Г«", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
             var internet = new Internet
             {
                 Abonent = subscriber,
