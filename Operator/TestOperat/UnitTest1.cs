@@ -1,13 +1,14 @@
 using NUnit.Framework;
 using Operator;
+using System.Xml.Linq;
 
 namespace TestOperat
 {
     [TestFixture]
-    public class ServiceTests
+    public class Tests
     {
         [Test]
-        public void Calls_Payment_CalculatesCorrectly()
+        public void ConstructorTest()
         {
             var subscriber = new Subscriber("Том", "Маршалл", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
             var calls = new Calls
