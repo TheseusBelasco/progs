@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Operator
+namespace OperatorName
 {
-    public class Subscriber
+    public class Subscriber : IComparable<Subscriber>
     {
         private readonly string contractNumber;
         private decimal accountBalance;
@@ -45,11 +45,23 @@ namespace Operator
 
         public string GetInfo()
         {
-            return $"Имя абонента: {Name} {Surname}, Телефонный номер: {PhoneNumber}, " +
-                   $"Номер договора: {ContractNumber}, Название тарифа: {TarifName}, " +
-                   $"Тип оплаты: {PaymentType}, Сумма на личном счёте: {AccountBalance}";
+            return $"Имя: {Name} {Surname}, Телефон: {PhoneNumber}, " +
+                   $"Договор: {ContractNumber}, Тариф: {TarifName}, " +
+                   $"Тип оплаты: {PaymentType}, Баланс: {AccountBalance}";
+        }
+
+        public int CompareTo(Subscriber other)
+        {
+            if (other == null) return 1;
+
+            int surnameComparison = Surname.CompareTo(other.Surname);
+            if (surnameComparison != 0)
+                return surnameComparison;
+
+            return Name.CompareTo(other.Name);
         }
     }
+
     public enum PaymentTypeCl
     {
         Predoplata,
@@ -72,9 +84,7 @@ namespace Operator
         public override decimal Payment()
         {
             if (UsedMinutes <= FreeMinutes)
-            {
                 return 0;
-            }
             return (UsedMinutes - FreeMinutes) * CostPerMinute;
         }
     }
@@ -88,9 +98,7 @@ namespace Operator
         public override decimal Payment()
         {
             if (SentMessages <= FreeMessages)
-            {
                 return 0;
-            }
             return (SentMessages - FreeMessages) * CostPerMessage;
         }
     }
@@ -104,10 +112,57 @@ namespace Operator
         public override decimal Payment()
         {
             if (UsedTraffic <= FreeTraffic)
-            {
                 return 0;
-            }
             return (UsedTraffic - FreeTraffic) * CostPerMb;
+        }
+    }
+
+    public enum OrganizationName
+    {
+        MTS,
+        Beeline,
+        Megafon
+    }
+
+    public class Operator : IEnumerable<Subscriber>
+    {
+        public OrganizationName OrgName { get; }
+        public string INN { get; }
+        public int AbonentCount => subscribers.Count;
+
+        private readonly List<Subscriber> subscribers = new List<Subscriber>();
+
+        public Operator(OrganizationName orgName, string inn, IEnumerable<Subscriber> initialSubscribers)
+        {
+            OrgName = orgName;
+            INN = inn;
+
+            foreach (var sub in initialSubscribers)
+            {
+                AddSubscriber(sub);
+            }
+        }
+
+        public void AddSubscriber(Subscriber subscriber)
+        {
+            if (subscriber == null)
+                throw new ArgumentNullException(nameof(subscriber));
+
+            if (!subscribers.Any(s => s.ContractNumber == subscriber.ContractNumber))
+            {
+                subscribers.Add(subscriber);
+            }
+        }
+
+        public IEnumerator<Subscriber> GetEnumerator()
+        {
+            subscribers.Sort(); // Сортировка по фамилии и имени
+            return subscribers.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

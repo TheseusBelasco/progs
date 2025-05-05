@@ -1,6 +1,6 @@
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
-using Operator;
+using OperatorName;
 using System.Xml.Linq;
 
 namespace TestOperat
@@ -96,6 +96,34 @@ namespace TestOperat
             };
             decimal payment = internet.Payment();
             Assert.That(payment, Is.EqualTo(0.0m));
+        }
+
+        [Test]
+        public void Operator_AbonentCount_ReturnsCorrectCount()
+        {
+            var subscriber1 = new Subscriber("Том", "Маршалл", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
+            var subscriber2 = new Subscriber("Магнус", "Чейз", "98765", "5678", "Premium", PaymentTypeCl.Credit, 0);
+            var subscriber3 = new Subscriber("Алиса", "Селезнёва", "88005", "1111", "Ultra", PaymentTypeCl.Predoplata, 200);
+
+            var op = new Operator(OrganizationName.MTS, "1234567890", new List<Subscriber> { subscriber1, subscriber2, subscriber3 });
+
+            Assert.That(op.AbonentCount, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Operator_IEnumerable_ReturnsSortedSubscribers()
+        {
+            var subscriber1 = new Subscriber("Боба", "Фетт", "88007", "2222", "Pro", PaymentTypeCl.Credit, 50);
+            var subscriber2 = new Subscriber("Чарли", "Чаплин", "88009", "3333", "Standard", PaymentTypeCl.Predoplata, 150);
+            var subscriber3 = new Subscriber("Алиса", "Селезнёва", "88005", "1111", "Ultra", PaymentTypeCl.Predoplata, 200);
+
+            var op = new Operator(OrganizationName.MTS, "1234567890", new List<Subscriber> { subscriber1, subscriber2, subscriber3 });
+
+            var result = op.ToList();
+
+            Assert.That(result[0].Surname, Is.EqualTo("Фетт"));
+            Assert.That(result[1].Surname, Is.EqualTo("Чаплин"));
+            Assert.That(result[2].Surname, Is.EqualTo("Селезнёва"));
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Operator;
+using OperatorName;
 
 namespace OperatorProg
 {
@@ -11,8 +11,12 @@ namespace OperatorProg
     {
         static void Main(string[] args)
         {
-            Subscriber tom = new Subscriber("Том", "Маршалл", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
-            Subscriber magnus = new Subscriber("Магнус", "Чейз", "98765", "5678", "Premium", PaymentTypeCl.Credit, 0);
+            var tom = new Subscriber("Том", "Маршалл", "89912", "1234", "Newbie", PaymentTypeCl.Predoplata, 100);
+            var magnus = new Subscriber("Магнус", "Чейз", "98765", "5678", "Premium", PaymentTypeCl.Credit, 0);
+            var alice = new Subscriber("Алиса", "Селезнёва", "89234", "2345", "Ultra", PaymentTypeCl.Predoplata, 200);
+            var boba = new Subscriber("Боба", "Фетт", "88007", "3456", "Pro", PaymentTypeCl.Credit, 50);
+            var charlie = new Subscriber("Чарли", "Чаплин", "88009", "7890", "Standard", PaymentTypeCl.Predoplata, 150);
+            var david = new Subscriber("Дэвид", "Ричардсон", "88001", "0000", "Light", PaymentTypeCl.Credit, 30);
 
             Console.WriteLine(tom.GetInfo());
             Console.WriteLine(magnus.GetInfo());
@@ -75,7 +79,28 @@ namespace OperatorProg
             Console.WriteLine($"Текстовые сообщения: {magnusTextMessages.Payment()}");
             Console.WriteLine($"Интернет: {magnusInternet.Payment()}");
 
+            var mts = new Operator(OrganizationName.MTS, "1234567890", new List<Subscriber> { tom, boba, david });
+            var beeline = new Operator(OrganizationName.Beeline, "0987654321", new List<Subscriber> { magnus, charlie });
+            var megafon = new Operator(OrganizationName.Megafon, "1122334455", new List<Subscriber> { alice });
+
+            PrintOperatorInfo(mts);
+            PrintOperatorInfo(beeline);
+            PrintOperatorInfo(megafon);
+
             Console.ReadKey();
+        }
+
+        static void PrintOperatorInfo(Operator op)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Оператор: {op.OrgName}, ИНН: {op.INN}");
+            Console.WriteLine($"Количество абонентов: {op.AbonentCount}");
+            Console.WriteLine("Абоненты:");
+
+            foreach (var sub in op)
+            {
+                Console.WriteLine($" - {sub.Surname} {sub.Name}, Номер: {sub.PhoneNumber}");
+            }
         }
     }
 }
